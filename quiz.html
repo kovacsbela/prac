@@ -58,6 +58,16 @@
       .opt.correct { background: #16a34a; color: #fff; }
       .opt.wrong { background: #ef4444; color: #fff; }
       .opt:disabled { cursor: default; opacity: 0.95; }
+      .opt.picked { background: #4f46e5; color: #fff; }
+      .hint { font-size: 14px; color: #6b7280; margin-bottom: 14px; }
+      .ord-num {
+        display: inline-block; min-width: 26px; height: 26px; line-height: 26px;
+        text-align: center; background: rgba(255, 255, 255, 0.35);
+        border-radius: 999px; margin-right: 10px; font-weight: 800; font-size: 14px;
+        vertical-align: middle;
+      }
+      .ord-line { padding: 4px 0; }
+      .ord-box { margin-bottom: 10px; }
       .btn-main {
         width: 100%;
         background: linear-gradient(90deg, #7c3aed, #4f46e5);
@@ -163,6 +173,13 @@
                 prompt: "Milyen toldalék van a <b>hazám</b> szóban?",
                 options: [{ text: "Képző" }, { text: "Jel", ok: true }, { text: "Rag" }],
                 explain: "A -m birtokos jel: azt jelzi, kié a ház. Ezért jel."
+              },
+              {
+                type: "order",
+                title: "Napszakok sorrendje",
+                prompt: "Rakd sorba a <b>napszakokat</b> a reggeltől az estig!",
+                items: ["Reggel", "Délelőtt", "Délután", "Este"],
+                explain: "Reggel → Délelőtt → Délután → Este. Ez egy rendezéses kérdés minta!"
               }
             ]
           }
@@ -214,12 +231,22 @@
         cups = LEVELS.map(() => false);
         best = LEVELS.map(() => 0);
         shuffled = LEVELS.map(l =>
-          l.questions.map(item => ({
-            ...item,
-            options: item.options
-              .map(o => ({ text: o.text, ok: !!o.ok, r: Math.random() }))
-              .sort((a, b) => a.r - b.r)
-          }))
+          l.questions.map(item => {
+            if (item.type === "order") {
+              return {
+                ...item,
+                items: item.items
+                  .map((t, idx) => ({ text: t, idx: idx, r: Math.random() }))
+                  .sort((a, b) => a.r - b.r)
+              };
+            }
+            return {
+              ...item,
+              options: item.options
+                .map(o => ({ text: o.text, ok: !!o.ok, r: Math.random() }))
+                .sort((a, b) => a.r - b.r)
+            };
+          })
         );
         const s = loadState();
         if (s) {
@@ -307,6 +334,7 @@
       function showQuestion() {
         const level = LEVELS[currentLevel];
         const q = shuffled[currentLevel][qi];
+        if (q.type === "order") { showOrderQuestion(level, q); return; }
         const opts = q.options
           .map((o, i) => `<button class="opt" id="opt-${i}" onclick="answer(${i})">${o.text}</button>`)
           .join("");
@@ -330,6 +358,81 @@
           </div>
         `;
         window.scrollTo(0, 0);
+      }
+
+      let orderSel = [];
+
+      function showOrderQuestion(level, q) {
+        orderSel = [];
+        const cupsNow = cups.filter(Boolean).length;
+        const items = q.items
+          .map((it, i) => `<button class="opt" id="ord-${i}" onclick="pickOrder(${i})">${it.text}</button>`)
+          .join("");
+        app.innerHTML = `
+          <div class="progress-wrap">
+            <span class="progress-num">${qi + 1}/${level.questions.length}</span>
+            <div class="bar"><div class="bar-fill" style="width:${(qi / level.questions.length) * 100}%"></div></div>
+            <span class="progress-num">⭐ ${levelScore}</span>
+          </div>
+          <div class="progress-wrap">
+            <div class="level-name">${level.name}</div>
+          </div>
+          <div class="card">
+            <div class="q-prompt">${q.prompt}</div>
+            <p class="hint">👆 Koppints a sorokra a helyes sorrendben. Az utolsó koppintást visszavonhatod.</p>
+            <div class="options">${items}</div>
+            <button class="btn-main" id="order-check" onclick="checkOrder()" disabled>Ellenőrzés 🏁</button>
+            <div id="feedback" class="feedback"></div>
+          </div>
+          <div class="progress-wrap" style="justify-content:center;">
+            ${cupsRow(cupsNow, true)}
+          </div>
+        `;
+        window.scrollTo(0, 0);
+      }
+
+      function pickOrder(i) {
+        const q = shuffled[currentLevel][qi];
+        const pos = orderSel.indexOf(i);
+        if (pos === -1) orderSel.push(i);
+        else if (pos === orderSel.length - 1) orderSel.pop();
+        q.items.forEach((it, idx) => {
+          const btn = document.getElementById("ord-" + idx);
+          const p = orderSel.indexOf(idx);
+          if (p === -1) {
+            btn.classList.remove("picked");
+            btn.innerHTML = it.text;
+          } else {
+            btn.classList.add("picked");
+            btn.innerHTML = `<span class="ord-num">${p + 1}</span>${it.text}`;
+          }
+        });
+        document.getElementById("order-check").disabled = orderSel.length !== q.items.length;
+      }
+
+      function checkOrder() {
+        const q = shuffled[currentLevel][qi];
+        q.items.forEach((it, idx) => { document.getElementById("ord-" + idx).disabled = true; });
+        const correct = orderSel.every((sel, k) => q.items[sel].idx === k);
+        if (correct) {
+          levelScore++;
+        } else {
+          levelMistakes.push({ title: q.title, explain: q.explain });
+        }
+        const ordered = q.items.slice().sort((a, b) => a.idx - b.idx);
+        const correctHtml = ordered
+          .map((it, k) => `<div class="ord-line"><span class="ord-num">${k + 1}</span> ${it.text}</div>`)
+          .join("");
+        const last = qi === LEVELS[currentLevel].questions.length - 1;
+        document.getElementById("order-check").style.display = "none";
+        document.getElementById("feedback").innerHTML = `
+          <div class="fb-title ${correct ? "fb-good" : "fb-bad"}">
+            ${correct ? "Helyes! 🎉" : "Helytelen 😅 A helyes sorrend:"}
+          </div>
+          ${correct ? "" : `<div class="explain ord-box">${correctHtml}</div>`}
+          <div class="explain">💡 ${q.explain}</div>
+          <button class="btn-main" onclick="next()">${last ? "Szint vége 🏁" : "Következő ➡️"}</button>
+        `;
       }
 
       function answer(i) {

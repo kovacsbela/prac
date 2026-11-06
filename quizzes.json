@@ -290,6 +290,103 @@
           ]
         }
       ]
+    },
+    {
+      "id": "walesi-bardok",
+      "ico": "📜",
+      "name": "A walesi bárdok",
+      "desc": "Arany János balladája – rakd sorba az első hat versszak sorait!",
+      "tag": "Irodalom – memoriter",
+      "cupMin": 2,
+      "rules": [
+        { "ico": "🎼", "text": "A <b>rímek</b> segítenek: a versszak sorai rímpárokban zengenek" },
+        { "ico": "👆", "text": "Koppints a sorokra a helyes sorrendben – az utolsó koppintást visszavonhatod" },
+        { "ico": "📜", "text": "Olvasd el hangosan a kész versszakot – így könnyebb megjegyezni!" }
+      ],
+      "levels": [
+        {
+          "name": "1. szint – 1–3. versszak 📜",
+          "questions": [
+            {
+              "type": "order",
+              "title": "1. versszak",
+              "prompt": "Rakd sorba az <b>első versszak</b> sorait!",
+              "items": [
+                "Edward király, angol király",
+                "Léptet fakó lován:",
+                "Hadd látom, úgymond, mennyit ér",
+                "A velszi tartomány."
+              ],
+              "explain": "Így indul a ballada: <i>„Edward király, angol király / Léptet fakó lován…”</i> A „király – tartomány” rím zárja le a négysort."
+            },
+            {
+              "type": "order",
+              "title": "2. versszak",
+              "prompt": "Rakd sorba a <b>második versszak</b> sorait!",
+              "items": [
+                "Van-e ott folyó és földje jó?",
+                "Legelőin fű kövér?",
+                "Használt-e a megöntözés:",
+                "A pártos honfivér?"
+              ],
+              "explain": "A király kérdőversszaka a velszi föld termékenységéről szól. Segít a rím: „kövér – honfivér”."
+            },
+            {
+              "type": "order",
+              "title": "3. versszak",
+              "prompt": "Rakd sorba a <b>harmadik versszak</b> sorait!",
+              "items": [
+                "S a nép, az istenadta nép,",
+                "Ha oly boldog-e rajt',",
+                "Mint akarom, s mint a barom,",
+                "Melyet igába hajt?"
+              ],
+              "explain": "A király kegyetlenül kérdezi: a nép úgy boldog-e, mint az igavonó barom? A „rajt' – hajt” rím zárja a versszakot."
+            }
+          ]
+        },
+        {
+          "name": "2. szint – 4–6. versszak 🎻",
+          "questions": [
+            {
+              "type": "order",
+              "title": "4. versszak",
+              "prompt": "Rakd sorba a <b>negyedik versszak</b> sorait!",
+              "items": [
+                "Felség! valóban koronád",
+                "Legszebb gyémántja Velsz:",
+                "Földet, folyót, legelni jót,",
+                "Hegy-völgyet benne lelsz."
+              ],
+              "explain": "Ez a bárd dicsérő válasza. Figyeld a rímeket: „Velsz – lelsz”, és a belső rím: „földet, folyót… jót”."
+            },
+            {
+              "type": "order",
+              "title": "5. versszak",
+              "prompt": "Rakd sorba az <b>ötödik versszak</b> sorait!",
+              "items": [
+                "S a nép, az istenadta nép",
+                "Oly boldog rajta, Sire!",
+                "Kunyhói mind hallgatva, mint",
+                "Megannyi puszta sír."
+              ],
+              "explain": "A bárd keserű válasza: a nép úgy hallgat, mint a sírok. A versszakot a „Sire!” felkiáltás teszi különlegessé."
+            },
+            {
+              "type": "order",
+              "title": "6. versszak",
+              "prompt": "Rakd sorba a <b>hatodik versszak</b> sorait!",
+              "items": [
+                "Edward király, angol király",
+                "Léptet fakó lován:",
+                "Körötte csend amerre ment,",
+                "És néma tartomány."
+              ],
+              "explain": "Ugyanígy indult a vers – de most már <b>csend</b> és némaság veszi körül a királyt. Ez a visszatérés (kvintania-rímek) Arany titka!"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
