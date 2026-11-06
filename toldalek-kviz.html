@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toldalék-túra 🎈</title>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(160deg, #7c3aed 0%, #4f46e5 45%, #0ea5e9 100%);
+        min-height: 100vh;
+        color: #1e1b34;
+        display: flex;
+        justify-content: center;
+        padding: 16px;
+      }
+      #app { width: 100%; max-width: 520px; }
+      .card {
+        background: #ffffff;
+        border-radius: 22px;
+        padding: 22px 18px;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+        margin-bottom: 14px;
+      }
+      h1 { font-size: 26px; text-align: center; line-height: 1.25; }
+      .sub { text-align: center; color: #6b7280; margin-top: 6px; font-size: 15px; }
+      .center { text-align: center; }
+      .cups { text-align: center; font-size: 34px; letter-spacing: 6px; margin: 10px 0; }
+      .cups.small { font-size: 20px; letter-spacing: 3px; margin: 0; }
+      .cup.off { filter: grayscale(1); opacity: 0.28; }
+      .cup.on { animation: pop 0.5s ease; }
+      @keyframes pop { 0% { transform: scale(0); } 70% { transform: scale(1.4); } 100% { transform: scale(1); } }
+      .progress-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+      .progress-num { font-weight: 700; white-space: nowrap; font-size: 14px; color: #4f46e5; }
+      .bar { flex: 1; height: 10px; background: #e5e7eb; border-radius: 999px; overflow: hidden; }
+      .bar-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #0ea5e9); width: 0%; transition: width 0.3s ease; }
+      .level-name { font-weight: 800; color: #7c3aed; font-size: 15px; margin-bottom: 6px; }
+      .q-prompt { font-size: 19px; font-weight: 700; line-height: 1.4; margin-bottom: 16px; }
+      .q-prompt b { color: #4f46e5; }
+      .options { display: grid; gap: 10px; }
+      button {
+        font-family: inherit;
+        font-size: 17px;
+        border: none;
+        border-radius: 14px;
+        padding: 15px 16px;
+        cursor: pointer;
+        transition: transform 0.06s ease;
+      }
+      button:active { transform: scale(0.97); }
+      .opt { background: #eef2ff; color: #1e1b34; font-weight: 600; text-align: left; min-height: 54px; }
+      .opt.correct { background: #16a34a; color: #fff; }
+      .opt.wrong { background: #ef4444; color: #fff; }
+      .opt:disabled { cursor: default; opacity: 0.95; }
+      .btn-main {
+        width: 100%;
+        background: linear-gradient(90deg, #7c3aed, #4f46e5);
+        color: #fff;
+        font-weight: 800;
+        font-size: 18px;
+        min-height: 56px;
+        margin-top: 8px;
+      }
+      .btn-secondary {
+        width: 100%;
+        background: #f1f5f9;
+        color: #4f46e5;
+        font-weight: 700;
+        font-size: 16px;
+        min-height: 50px;
+        margin-top: 8px;
+      }
+      .feedback { margin-top: 14px; }
+      .fb-title { font-weight: 800; font-size: 17px; margin-bottom: 8px; }
+      .fb-good { color: #15803d; }
+      .fb-bad { color: #dc2626; }
+      .explain {
+        background: #fefce8;
+        border: 1px solid #fde68a;
+        border-radius: 14px;
+        padding: 14px;
+        font-size: 15.5px;
+        line-height: 1.55;
+      }
+      .rules { display: grid; gap: 10px; margin: 16px 0 4px; }
+      .rule {
+        display: flex; gap: 10px; align-items: flex-start;
+        background: #f8fafc; border: 1px solid #e2e8f0;
+        border-radius: 14px; padding: 12px; font-size: 15px; line-height: 1.45;
+      }
+      .rule .ico { font-size: 20px; }
+      .rule b { color: #4f46e5; }
+      .level-list { display: grid; gap: 8px; margin-top: 14px; }
+      .level-row {
+        display: flex; align-items: center; gap: 10px;
+        background: #f8fafc; border: 1px solid #e2e8f0;
+        border-radius: 12px; padding: 10px 12px; font-size: 15px;
+      }
+      .level-row .name { font-weight: 700; flex: 1; }
+      .level-row .pts { color: #6b7280; font-size: 13px; font-weight: 700; }
+      .level-row.nocup { opacity: 0.75; }
+      .mistake { border-left: 4px solid #f59e0b; background: #fffbeb; border-radius: 10px; padding: 12px; margin-top: 10px; }
+      .mistake .m-title { font-weight: 700; font-size: 15px; }
+      .mistake .m-exp { font-size: 14px; color: #57534e; line-height: 1.5; margin-top: 4px; }
+      .big-emoji { font-size: 54px; text-align: center; }
+      .final-title { font-size: 24px; font-weight: 800; text-align: center; margin-top: 6px; }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const LEVELS = [
+        {
+          name: "1. szint – Első lépések 🌱",
+          questions: [
+            {
+              title: "kertben → rag",
+              prompt: "Milyen toldalék van a <b>kertben</b> szóban?",
+              options: [["Képző", false], ["Jel", false], ["Rag", true]],
+              explain: "A rag a mondaton belül köti össze a szavakat. A kertben szóban a kérdés: <b>hol?</b> A -ben helyhatározó rag. Ha a toldalék a hol? mikor? kit? mivel? kérdésre válaszol, akkor rag."
+            },
+            {
+              title: "kertek → jel",
+              prompt: "Milyen toldalék van a <b>kertek</b> szóban?",
+              options: [["Képző", false], ["Jel", true], ["Rag", false]],
+              explain: "Az -ek a <b>többes szám jele</b>. Nem alkot új szót, csak jelez valamit: azt, hogy több kert van. Ezért jel."
+            },
+            {
+              title: "kertész → képző",
+              prompt: "Milyen toldalék van a <b>kertész</b> szóban?",
+              options: [["Képző", true], ["Jel", false], ["Rag", false]],
+              explain: "A kert szóból a toldalékkal egészen <b>új szó</b> lett: a kertész (-ész). Amikor a toldalék új szót alkot, az képző."
+            },
+            {
+              title: "futott → jel",
+              prompt: "Milyen toldalék van a <b>futott</b> szóban?",
+              options: [["Képző", false], ["Jel", true], ["Rag", false]],
+              explain: "Az -ott a <b>múlt idő jele</b>: jelzi, hogy a futás már megtörtént. Nem keletkezik új szó, ezért jel."
+            },
+            {
+              title: "futás → képző",
+              prompt: "Milyen toldalék van a <b>futás</b> szóban?",
+              options: [["Képző", true], ["Jel", false], ["Rag", false]],
+              explain: "A fut igeből a futás <b>főnév</b> lett – a szófaj is változott! Ahol új szó (és gyakran új szófaj) keletkezik, ott képző van (-ás/-és)."
+            },
+            {
+              title: "hazám → jel",
+              prompt: "Milyen toldalék van a <b>hazám</b> szóban?",
+              options: [["Képző", false], ["Jel", true], ["Rag", false]],
+              explain: "A -m a <b>birtokos jel</b> (birtokos személyjele): azt jelzi, hogy a ház az enyém. Nem alkot új szót, ezért jel."
+            }
+          ]
+        },
+        {
+          name: "2. szint – Jelek nyomában 🏷️",
+          questions: [
+            {
+              title: "Melyik szóban van többes szám jele? → házak",
+              prompt: "Melyik szóban van <b>többes szám jele</b>?",
+              options: [["ház", false], ["házam", false], ["házak", true], ["házad", false]],
+              explain: "A házak szóban a -k a többes szám jele. A házam és a házad szavakban birtokos jel van (-m, -d), a ház pedig toldalék nélküli szótő."
+            },
+            {
+              title: "karod → jel",
+              prompt: "Milyen toldalék van a <b>karod</b> szóban?",
+              options: [["Képző", false], ["Jel", true], ["Rag", false]],
+              explain: "A karod azt jelenti: az én karom. A -d a <b>birtokos jel</b> – jelzi, kié a kar. Nem új szó, tehát jel."
+            },
+            {
+              title: "magasabb → jel",
+              prompt: "Milyen toldalék van a <b>magasabb</b> szóban?",
+              options: [["Képző", false], ["Jel", true], ["Rag", false]],
+              explain: "A -bb a <b>fokjele</b>: magas – magasabb – legmagasabb. Nem alkot új szót, csak fokozza a jelentést, ezért jel."
+            },
+            {
+              title: "legszebb → jelek",
+              prompt: "Milyen toldalékok vannak a <b>legszebb</b> szóban?",
+              options: [["Képzők", false], ["Jelek", true], ["Ragok", false]],
+              explain: "A leg- és a -bb <b>fokjelek</b>. Nem alkotnak új szót, csak fokozzák a jelentést: szép – szebb – legszebb. A fokjel is jel."
+            },
+            {
+              title: "tanult → jel",
+              prompt: "Milyen toldalék van a <b>tanult</b> szóban?",
+              options: [["Képző", false], ["Jel", true], ["Rag", false]],
+              explain: "A -t itt a <b>múlt idő jele</b>: jelzi, hogy a tanulás már megtörtént. Vigyázat, ez nem tárgy rag, mert az igén nincs múlt időjel és nem is mondatbeli kapcsolatot jelöl!"
+            },
+            {
+              title: "Melyik szóban van birtokos jel? → kalapom",
+              prompt: "Melyik szóban van <b>birtokos jel</b>?",
+              options: [["kalapom", true], ["kalapban", false], ["kalapos", false], ["kalaptól", false]],
+              explain: "A kalapom: az én kalapom – a -m birtokos jel. A kalapban és a kalaptól ragos szó (hol? kitől?), a kalapos viszont képzős: új szó, mert melléknevet alkot (kalapos ember)."
+            }
+          ]
+        },
+        {
+          name: "3. szint – Ragvadászat 🔗",
+          questions: [
+            {
+              title: "tollal → rag",
+              prompt: "A tollal írtam. Milyen toldalék a <b>tollal</b> szóban a <b>-val</b>?",
+              options: [["Képző", false], ["Jel", false], ["Rag", true]],
+              explain: "A -val a mondatban köti össze a szavakat: <b>mivel?</b> írtam – tollal. A mondatbeli kapcsolatot jelölő toldalék a rag."
+            },
+            {
+              title: "Budapestre → rag",
+              prompt: "Budapestre utazunk. Milyen toldalék van a <b>Budapestre</b> szóban?",
+              options: [["Képző", false], ["Jel", false], ["Rag", true]],
+              explain: "A -re a <b>hová?</b> kérdésre válaszol: Budapestre = hová utazunk. A helyet, irányt mutató toldalék rag."
+            },
+            {
+              title: "filmet → tárgy rag",
+              prompt: "<i>Láttam a filmet a moziban.</i><br>Melyik szóban van <b>-t tárgy rag</b>?",
+              options: [["filmet", true], ["moziban", false], ["láttam", false]],
+              explain: "A filmet válaszolja meg a <b>mit?</b> kérdést (mit láttam?), ezért van benne -t tárgy rag. A moziban szintén ragos szó (hol?), a láttam pedig múlt idejű ige: benne múlt idő jel és személyrag van."
+            },
+            {
+              title: "kutyákkal → jel + rag",
+              prompt: "Hány toldaléka van a <b>kutyákkal</b> szónak, és mik?",
+              options: [
+                ["1 toldalék: csak rag", false],
+                ["2 toldalék: jel + rag", true],
+                ["2 toldalék: képző + rag", false],
+                ["3 toldalék: képző + jel + rag", false]
+              ],
+              explain: "kutyákkal = kutya + <b>k</b> (többes szám jele) + <b>kal</b> (rag). A jó sorrend: szótő + képző + jel + rag."
+            },
+            {
+              title: "Melyik szóban NINCS rag? → kutyus",
+              prompt: "Melyik szóban <b>nincs rag</b>?",
+              options: [["ablakból", false], ["padlóra", false], ["kutyus", true], ["fűben", false]],
+              explain: "Az ablakból (honnan?), a padlóra (hová?) és a fűben (hol?) mind ragos szó. A kutyus egy kedves szótő, toldalék nélkül."
+            },
+            {
+              title: "Melyik szó végződik tárgy raggal? → asztalt",
+              prompt: "Melyik szó végződik <b>-t tárgy raggal</b>?",
+              options: [["asztal", false], ["asztalt", true], ["asztalra", false], ["asztalos", false]],
+              explain: "Az asztalt válaszolja meg a <b>mit?</b> kérdést (pl. megvettem az asztalt). Az asztalra ragos szó, de az nem tárgy rag, hanem helyhatározó rag; az asztalos képzős szó."
+            }
+          ]
+        },
+        {
+          name: "4. szint – Képzők műhelye 🔧",
+          questions: [
+            {
+              title: "virágok vs. virágos",
+              prompt: "Mi a helyes? A <b>virágok</b> szóban a -k ..., a <b>virágos</b> szóban az -os ...",
+              options: [
+                ["-k jel, -os képző", true],
+                ["-k képző, -os jel", false],
+                ["mindkettő jel", false],
+                ["mindkettő képző", false]
+              ],
+              explain: "A virágok szóban a -k többes szám <b>jele</b> (nem új szó). A virágos viszont <b>képzős</b> szó: melléknév lett a főnévből (virágos rét)."
+            },
+            {
+              title: "Melyik szóban van képző? → tanító",
+              prompt: "Melyik szóban van <b>képző</b>?",
+              options: [["tanító", true], ["könyvek", false], ["házban", false], ["magasabb", false]],
+              explain: "A tanít + ó szóból tanító lett: új szó, más szófaj, tehát képző. A könyvekben az -ek többes szám jele (jel), a magasabbban a -bb fokjele (jel), a házban -ban pedig rag."
+            },
+            {
+              title: "barátság → képző",
+              prompt: "Milyen toldalék van a <b>barátság</b> szóban?",
+              options: [["Képző", true], ["Jel", false], ["Rag", false]],
+              explain: "A barát szóból a -ság képzővel új fogalom lett: barátság. Új szót alkotó toldalék = képző."
+            },
+            {
+              title: "Melyik szóban van képző? → futás",
+              prompt: "Melyik szóban van <b>képző</b>?",
+              options: [["futott", false], ["futás", true], ["futnak", false]],
+              explain: "A futás: fut + ás – igeből főnév lett, ezért képző. A futott múlt idő jele (jel), a futnak személyragot visel (rag)."
+            },
+            {
+              title: "Melyik szó NEM képzős? → olvas",
+              prompt: "Melyik szó <b>nem</b> képzős?",
+              options: [["olvasó", false], ["olvasás", false], ["olvasmány", false], ["olvas", true]],
+              explain: "Az olvasó (főnév), az olvasás (főnév) és az olvasmány (főnév) mind az olvas igéből képzett szavak. Az olvas maga a szótő, toldalék nélkül."
+            },
+            {
+              title: "macskácska → képző",
+              prompt: "Milyen toldalék van a <b>macskácska</b> szóban?",
+              options: [["Képző", true], ["Jel", false], ["Rag", false]],
+              explain: "A -cska a <b>kicsinyítő képző</b>: a macskából kicsi, aranyos macskácska lett. Új szót (új jelentést) alkot, tehát képző."
+            }
+          ]
+        },
+        {
+          name: "5. szint – Nagy ismétlés 🎓",
+          questions: [
+            {
+              title: "dobozokat → jel + rag",
+              prompt: "Hány toldaléka van a <b>dobozokat</b> szónak, és mik?",
+              options: [
+                ["1 toldalék: rag", false],
+                ["2 toldalék: jel + rag", true],
+                ["2 toldalék: képző + rag", false],
+                ["3 toldalék: képző + jel + rag", false]
+              ],
+              explain: "doboz + <b>ok</b> (többes szám jele) + <b>at</b> (tárgy rag). Egy szóban több toldalék is lehet! A sorrend: szótő + képző + jel + rag."
+            },
+            {
+              title: "kutyalabda → nincs toldalék",
+              prompt: "Van toldalék a <b>kutyalabda</b> szóban?",
+              options: [
+                ["Igen, képző van benne", false],
+                ["Igen, rag van benne", false],
+                ["Igen, jel van benne", false],
+                ["Nincs – ez összetett szó", true]
+              ],
+              explain: "A kutya és a labda két külön szó, amit összeragasztottunk: ez <b>szóösszetétel</b>, nem toldalékos szó. A toldalék mindig a szótő végéhez toldott."
+            },
+            {
+              title: "Melyik szóban van jel? → asztalok",
+              prompt: "Melyik szóban van <b>jel</b>?",
+              options: [["asztalt", false], ["asztalos", false], ["asztalok", true], ["asztal", false]],
+              explain: "Az asztalok szóban a -k a <b>többes szám jele</b>. Az asztalt ragos szó (tárgy rag), az asztalos képzős (asztalos ember), az asztal puszta szótő."
+            },
+            {
+              title: "boldogtalan → képző",
+              prompt: "Milyen toldalék a <b>boldogtalan</b> szóban a <b>-tlan</b>?",
+              options: [["Képző", true], ["Jel", false], ["Rag", false]],
+              explain: "A -tlan/-tlen a <b>tagadó képző</b>: a boldog szóból új szó lett, az ellentétes jelentésű boldogtalan. Új szó = képző."
+            },
+            {
+              title: "Melyik szóban van képző? → kalapos",
+              prompt: "Melyik szóban van <b>képző</b>?",
+              options: [["kalap", false], ["kalapos", true], ["kalapok", false], ["kalapom", false]],
+              explain: "A kalapos szóból új szó lett: melléknév (kalapos ember), ez a -es <b>képző</b>. A kalapokban többes szám jele (jel), a kalapomban birtokos jel (jel) van."
+            },
+            {
+              title: "Melyik szóban van rag? → kertben",
+              prompt: "Melyik szóban van <b>rag</b>?",
+              options: [["kertes", false], ["kertek", false], ["kertben", true], ["kertész", false]],
+              explain: "A kertben ragot kapott: a mondatban helyet kap a szó (hol?). A kertes és a kertész képzős szó, a kertekben a -k többes szám jele (jel)."
+            }
+          ]
+        },
+        {
+          name: "6. szint – Igeidő és személyrag 🕐",
+          questions: [
+            {
+              title: "futok → rag (személyrag)",
+              prompt: "Milyen toldalék a <b>futok</b> szóban a <b>-k</b>?",
+              options: [["Képző", false], ["Jel", false], ["Rag", true]],
+              explain: "A -k az <b>én</b> személyragja: futok = én futok. A személyrag összeköti az igét az alannyal a mondatban, ezért rag."
+            },
+            {
+              title: "Melyik ige múlt idejű? → futott",
+              prompt: "Melyik ige <b>múlt idejű</b>?",
+              options: [["fut", false], ["futott", true], ["futni fog", false]],
+              explain: "Az -ott a <b>múlt idő jele</b>: a futott már megtörtént. A fut most történik, a futni fog pedig jövő idő."
+            },
+            {
+              title: "Ki fut? futunk → mi",
+              prompt: "<i>Futunk.</i> Ki fut?",
+              options: [["én", false], ["te", false], ["mi", true], ["ők", false]],
+              explain: "A futunk szóban a -unk a <b>mi személyragja</b>: a toldalék árulja el, hogy kik futnak. A személyrag is rag!"
+            },
+            {
+              title: "futottál → jel + rag",
+              prompt: "Milyen toldalékai vannak a <b>futottál</b> szónak?",
+              options: [
+                ["1 toldalék: csak jel", false],
+                ["2: múlt idő jele + személyrag", true],
+                ["2: képző + rag", false],
+                ["1 toldalék: csak rag", false]
+              ],
+              explain: "fut + <b>ott</b> (múlt idő jele) + <b>ál</b> (személyrag). Igéknél gyakran van jel és rag is egy szóban!"
+            },
+            {
+              title: "Melyik mondat jövő idejű?",
+              prompt: "Melyik mondat <b>jövő idejű</b>?",
+              options: [["Tegnap fociztam.", false], ["Most focizom.", false], ["Holnap focizni fogok.", true]],
+              explain: "A jövő időt a <b>fog</b> segédige + a -ni mutatja: focizni fogok. A tegnap fociztam múlt idő, a most focizom jelen idő."
+            },
+            {
+              title: "hívsz → rag (személyrag)",
+              prompt: "<i>Hívsz engem?</i> Milyen toldalék a <b>hívsz</b> szóban a <b>-sz</b>?",
+              options: [["Képző", false], ["Jel", false], ["Rag", true]],
+              explain: "A -sz a <b>te</b> személyragja: hívsz = te hívsz. A személyrag az igét az alanyhoz köti a mondatban, ezért rag."
+            }
+          ]
+        }
+      ];
+
+      const CUP_MIN = 3;
+      const app = document.getElementById("app");
+
+      let mode = "full";
+      let currentLevel = 0;
+      let qi = 0;
+      let levelScore = 0;
+      let levelMistakes = [];
+      let cups = [false, false, false, false, false, false];
+      let best = [0, 0, 0, 0, 0, 0];
+
+      const shuffled = LEVELS.map(l =>
+        l.questions.map(q => ({
+          ...q,
+          options: q.options
+            .map(o => ({ text: o[0], ok: o[1], r: Math.random() }))
+            .sort((a, b) => a.r - b.r)
+        }))
+      );
+
+      const STORE_KEY = "toldalek-tura-v1";
+      function loadState() {
+        try {
+          const raw = window.localStorage.getItem(STORE_KEY);
+          if (!raw) return null;
+          const s = JSON.parse(raw);
+          if (!s || !Array.isArray(s.cups) || !Array.isArray(s.best) || s.cups.length !== LEVELS.length || s.best.length !== LEVELS.length) return null;
+          return s;
+        } catch (e) {
+          return null;
+        }
+      }
+      function saveState() {
+        try {
+          window.localStorage.setItem(STORE_KEY, JSON.stringify({ cups: cups, best: best }));
+        } catch (e) {
+          /* sandbox preview: saving unavailable */
+        }
+      }
+      function clearState() {
+        try {
+          window.localStorage.removeItem(STORE_KEY);
+        } catch (e) {}
+      }
+      (function initFromStorage() {
+        const s = loadState();
+        if (s) {
+          cups = s.cups.map(Boolean);
+          best = s.best.map(n => Number(n) || 0);
+        }
+      })();
+
+      function cupsRow(n, small) {
+        let s = "";
+        for (let i = 0; i < LEVELS.length; i++) {
+          s += `<span class="cup ${i < n ? "on" : "off"}">🏆</span>`;
+        }
+        return `<div class="cups ${small ? "small" : ""}">${s}</div>`;
+      }
+
+      function showStart() {
+        const cupCount = cups.filter(Boolean).length;
+        const hasProgress = cupCount > 0;
+        let startBtns;
+        if (cupCount === LEVELS.length) {
+          startBtns = `
+            <button class="btn-main" onclick="showEnd()">Eredmények megtekintése 🏁</button>
+            <button class="btn-secondary" onclick="startGame(true)">Új játék 🔄</button>`;
+        } else if (hasProgress) {
+          startBtns = `
+            <button class="btn-main" onclick="resume()">Folytatás ▶️</button>
+            <button class="btn-secondary" onclick="startGame(true)">Új játék az elejétől 🔄</button>`;
+        } else {
+          startBtns = `<button class="btn-main" onclick="startGame(true)">Mehet! 🚀</button>`;
+        }
+        app.innerHTML = `
+          <div class="card">
+            <h1>Toldalék-túra 🎈</h1>
+            <p class="sub">Képző, jel, rag – gyakorló kvíz</p>
+            ${cupsRow(cupCount)}
+          </div>
+          <div class="card">
+            <div class="rules">
+              <div class="rule"><span class="ico">🔧</span><div><b>Képző</b> – új szót alkot: kert → kert<b>ész</b></div></div>
+              <div class="rule"><span class="ico">🏷️</span><div><b>Jel</b> – nem új szó, csak jelez: többes szám, birtokos, múlt idő, fokozás: kert<b>ek</b></div></div>
+              <div class="rule"><span class="ico">🔗</span><div><b>Rag</b> – a mondatban köti össze a szavakat: kert<b>ben</b> (hol?)</div></div>
+              <div class="rule"><span class="ico">🧩</span><div>Sorrend: szótő + képző + jel + rag</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <p class="center" style="font-size:15px; line-height:1.5;">
+              <b>6 szint</b> vár, minden szinten <b>6 kérdés</b>.<br>
+              Ha egy szinten legalább <b>3 helyes</b> válaszod van, <b>kupát</b> kapsz! 🏆<br>
+              Gyűjtsd össze mind a <b>6 kupát</b> – akkor jön a nagy ünneplés! 🎊
+              <br><br><span style="color:#94a3b8;font-size:13px;">💾 Előrehaladásod elmentjük a böngészőben, így legközelebb onnan folytathatod, ahol abbahagytad.</span>
+            </p>
+          </div>
+          ${startBtns}
+        `;
+      }
+
+      function startGame(fullRestart) {
+        if (fullRestart) {
+          mode = "full";
+          cups = [false, false, false, false, false, false];
+          best = [0, 0, 0, 0, 0, 0];
+          clearState();
+        }
+        if (mode === "missing") {
+          const first = cups.findIndex(c => !c);
+          if (first !== -1) startLevel(first);
+          else showEnd();
+        } else {
+          startLevel(0);
+        }
+      }
+
+      function resume() {
+        const first = cups.findIndex(c => !c);
+        if (first !== -1) startLevel(first);
+        else showEnd();
+      }
+
+      function startLevel(i) {
+        currentLevel = i;
+        qi = 0;
+        levelScore = 0;
+        levelMistakes = [];
+        showQuestion();
+      }
+
+      function showQuestion() {
+        const level = LEVELS[currentLevel];
+        const q = shuffled[currentLevel][qi];
+        const opts = q.options
+          .map((o, i) => `<button class="opt" id="opt-${i}" onclick="answer(${i})">${o.text}</button>`)
+          .join("");
+        const cupsNow = cups.filter(Boolean).length;
+        app.innerHTML = `
+          <div class="progress-wrap">
+            <span class="progress-num">${qi + 1}/6</span>
+            <div class="bar"><div class="bar-fill" style="width:${(qi / level.questions.length) * 100}%"></div></div>
+            <span class="progress-num">⭐ ${levelScore}</span>
+          </div>
+          <div class="progress-wrap">
+            <div class="level-name">${level.name}</div>
+          </div>
+          <div class="card">
+            <div class="q-prompt">${q.prompt}</div>
+            <div class="options">${opts}</div>
+            <div id="feedback" class="feedback"></div>
+          </div>
+          <div class="progress-wrap" style="justify-content:center;">
+            ${cupsRow(cupsNow, true)}
+          </div>
+        `;
+        window.scrollTo(0, 0);
+      }
+
+      function answer(i) {
+        const q = shuffled[currentLevel][qi];
+        const chosen = q.options[i];
+        const correctIdx = q.options.findIndex(o => o.ok);
+        q.options.forEach((o, idx) => {
+          const btn = document.getElementById("opt-" + idx);
+          btn.disabled = true;
+          if (o.ok) btn.classList.add("correct");
+        });
+        if (chosen.ok) {
+          levelScore++;
+        } else {
+          document.getElementById("opt-" + i).classList.add("wrong");
+          levelMistakes.push({ title: q.title, explain: q.explain });
+        }
+        const last = qi === LEVELS[currentLevel].questions.length - 1;
+        document.getElementById("feedback").innerHTML = `
+          <div class="fb-title ${chosen.ok ? "fb-good" : "fb-bad"}">
+            ${chosen.ok ? "Helyes! 🎉" : "Helytelen 😅 A jó válasz: " + q.options[correctIdx].text}
+          </div>
+          <div class="explain">💡 ${q.explain}</div>
+          <button class="btn-main" onclick="next()">${last ? "Szint vége 🏁" : "Következő ➡️"}</button>
+        `;
+      }
+
+      function next() {
+        qi++;
+        if (qi < LEVELS[currentLevel].questions.length) showQuestion();
+        else showLevelResult();
+      }
+
+      function showLevelResult() {
+        const lvl = currentLevel;
+        const earned = levelScore >= CUP_MIN && !cups[lvl];
+        const passed = levelScore >= CUP_MIN;
+        if (passed) cups[lvl] = true;
+        if (levelScore > best[lvl]) best[lvl] = levelScore;
+        saveState();
+        const cupsNow = cups.filter(Boolean).length;
+        const mistakesHtml = levelMistakes.length
+          ? `<h3 class="center" style="margin-top:16px;">Átnézendő kérdések 📝</h3>` +
+            levelMistakes
+              .map(m => `<div class="mistake"><div class="m-title">${m.title}</div><div class="m-exp">${m.explain}</div></div>`)
+              .join("")
+          : `<p class="center" style="margin-top:14px;color:#16a34a;font-weight:700;">Egy hiba sincs ezen a szinten! 🎊</p>`;
+        const last = lvl === LEVELS.length - 1;
+        let btns = "";
+        if (last || mode === "missing") {
+          btns = `<button class="btn-main" onclick="showEnd()">Eredmény 🏁</button>`;
+          if (!passed) {
+            btns = `<button class="btn-main" onclick="startLevel(${lvl})">Szint újrapróbálása 🔁</button>` + btns;
+          }
+        } else {
+          btns = `<button class="btn-main" onclick="startLevel(${lvl + 1})">Következő szint ➡️</button>`;
+          if (!passed) {
+            btns = `<button class="btn-secondary" onclick="startLevel(${lvl})">Szint újrapróbálása 🔁</button>` + btns;
+          }
+        }
+        app.innerHTML = `
+          <div class="card center">
+            <div class="big-emoji">${passed ? (earned ? "🏆" : "🏆") : "💪"}</div>
+            <h2 style="font-size:21px;">${passed ? "Kupa megszerezve!" : "Sajnos nem sikerült…"}</h2>
+            <p class="sub">${levelScore}/6 helyes válasz ${passed ? "– ezért jár a kupa! A szintekhez legalább " + CUP_MIN + " helyes kell." : "– a kupához legalább " + CUP_MIN + " helyes válasz kell."}</p>
+            ${cupsRow(cupsNow)}
+            ${mistakesHtml}
+            <p style="margin-top:12px;font-size:13px;color:#94a3b8;">💾 Az előrehaladás elmentve a böngészőben</p>
+          </div>
+          ${btns}
+        `;
+        if (earned) launchConfetti(70, 1, 2600);
+        window.scrollTo(0, 0);
+      }
+
+      function showEnd() {
+        const cupCount = cups.filter(Boolean).length;
+        const totalBest = best.reduce((a, b) => a + b, 0);
+        const allCups = cupCount === LEVELS.length;
+        let emoji, msg;
+        if (allCups) {
+          emoji = "🏆";
+          msg = "MIND AZ 6 KUPA MEGVAN! Toldalék-mester vagy!";
+        } else if (cupCount >= 3) {
+          emoji = "💪";
+          msg = "Nagyon szuper! Már csak " + (LEVELS.length - cupCount) + " kupa hiányzik.";
+        } else {
+          emoji = "🌱";
+          msg = "Ne add fel! Nézd meg a magyarázatokat, és próbáld újra!";
+        }
+        const levelList = LEVELS
+          .map((l, i) => `
+            <div class="level-row ${cups[i] ? "" : "nocup"}">
+              <span>${cups[i] ? "🏆" : "⚪"}</span>
+              <span class="name">${l.name}</span>
+              <span class="pts">${best[i]}/6</span>
+            </div>
+          `)
+          .join("");
+        let btns = "";
+        if (!allCups) {
+          btns += `<button class="btn-main" onclick="retryMissing()">Hiányzó kupák megszerzése 🔁</button>`;
+        }
+        btns += `<button class="btn-secondary" onclick="startGame(true)">Újra az elejétől 🔄</button>`;
+        app.innerHTML = `
+          <div class="card center">
+            <div class="big-emoji">${emoji}</div>
+            <div class="final-title">${allCups ? "🎊 GRATULÁLOK! 🎊" : "Vége a túrának!"}</div>
+            ${cupsRow(cupCount)}
+            <p class="sub">${msg}</p>
+            <p style="margin-top:8px;font-weight:700;color:#4f46e5;">Összpontszám: ${totalBest}/36</p>
+            <div class="level-list">${levelList}</div>
+          </div>
+          ${btns}
+        `;
+        if (allCups) launchConfetti(130, 4, 9000);
+        window.scrollTo(0, 0);
+      }
+
+      function retryMissing() {
+        mode = "missing";
+        const first = cups.findIndex(c => !c);
+        if (first !== -1) startLevel(first);
+        else showEnd();
+      }
+
+      function launchConfetti(n, waves, duration) {
+        const c = document.createElement("canvas");
+        c.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:99;";
+        document.body.appendChild(c);
+        const ctx = c.getContext("2d");
+        function fit() { c.width = window.innerWidth; c.height = window.innerHeight; }
+        fit();
+        window.addEventListener("resize", fit);
+        const colors = ["#f43f5e", "#f59e0b", "#22c55e", "#3b82f6", "#a855f7", "#ec4899", "#eab308"];
+        const parts = [];
+        function spawn(x) {
+          parts.push({
+            x: x !== undefined ? x : Math.random() * c.width,
+            y: -20 - Math.random() * 80,
+            vx: (Math.random() - 0.5) * 2.5,
+            vy: 1.5 + Math.random() * 2.5,
+            r: Math.random() * Math.PI,
+            vr: (Math.random() - 0.5) * 0.25,
+            c: colors[Math.floor(Math.random() * colors.length)],
+            w: 8 + Math.random() * 6,
+            h: 5 + Math.random() * 5
+          });
+        }
+        for (let i = 0; i < n; i++) spawn();
+        for (let w = 1; w <= waves; w++) {
+          setTimeout(() => {
+            for (let i = 0; i < n; i++) spawn((c.width * w) / (waves + 1) + (Math.random() - 0.5) * 90);
+          }, w * 900);
+        }
+        const start = performance.now();
+        (function tick() {
+          ctx.clearRect(0, 0, c.width, c.height);
+          parts.forEach(p => {
+            p.x += p.vx; p.y += p.vy; p.vy += 0.015; p.r += p.vr;
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.r);
+            ctx.fillStyle = p.c;
+            ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+            ctx.restore();
+          });
+          const t = performance.now() - start;
+          if (t < duration && parts.some(p => p.y < c.height + 40)) {
+            requestAnimationFrame(tick);
+          } else {
+            window.removeEventListener("resize", fit);
+            c.remove();
+          }
+        })();
+      }
+
+      showStart();
+    </script>
+  </body>
+</html>

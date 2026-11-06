@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gyakorló Appok 🎮</title>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(160deg, #7c3aed 0%, #4f46e5 45%, #0ea5e9 100%);
+        min-height: 100vh;
+        color: #1e1b34;
+        display: flex;
+        justify-content: center;
+        padding: 16px;
+      }
+      #app { width: 100%; max-width: 520px; }
+      .card {
+        background: #ffffff;
+        border-radius: 22px;
+        padding: 22px 18px;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+        margin-bottom: 14px;
+      }
+      h1 { font-size: 26px; text-align: center; line-height: 1.25; }
+      .sub { text-align: center; color: #6b7280; margin-top: 6px; font-size: 15px; }
+      .app-list { display: grid; gap: 12px; margin-top: 16px; }
+      a.app {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        text-decoration: none;
+        background: #eef2ff;
+        border-radius: 16px;
+        padding: 16px 14px;
+        min-height: 84px;
+        transition: transform 0.08s ease, box-shadow 0.15s ease;
+      }
+      a.app:active { transform: scale(0.97); }
+      .app .ico { font-size: 38px; }
+      .app .txt { flex: 1; }
+      .app .name { font-weight: 800; font-size: 18px; color: #1e1b34; }
+      .app .desc { font-size: 14px; color: #6b7280; margin-top: 3px; line-height: 1.4; }
+      .app .tag {
+        display: inline-block;
+        font-size: 11px; font-weight: 700;
+        color: #7c3aed; background: #f3e8ff;
+        padding: 2px 9px; border-radius: 999px;
+        margin-top: 6px;
+      }
+      .app .go {
+        font-size: 22px; color: #4f46e5;
+      }
+      .soon {
+        display: flex; align-items: center; gap: 14px;
+        background: #f8fafc; border: 1.5px dashed #cbd5e1;
+        border-radius: 16px; padding: 14px; min-height: 74px;
+        opacity: 0.75;
+      }
+      .soon .ico { font-size: 30px; filter: grayscale(1); }
+      .soon .name { font-weight: 700; font-size: 16px; color: #475569; }
+      .soon .desc { font-size: 13px; color: #94a3b8; margin-top: 2px; }
+      h2 { font-size: 17px; color: #4f46e5; margin: 18px 0 10px; text-align: center; }
+      .footnote { text-align: center; font-size: 13px; color: #6b7280; line-height: 1.5; }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="card">
+        <h1>Gyakorló Appok 🎮</h1>
+        <p class="sub">Válassz egy játékot, és gyakorolj!</p>
+      </div>
+      <div class="card">
+        <div class="app-list" id="apps"></div>
+        <h2>Hamarosan…</h2>
+        <div class="app-list" id="soon"></div>
+      </div>
+      <p class="footnote">💡 Új játék? Tegyél egy új kártyát a listába!</p>
+    </div>
+    <script>
+      // Ide írhatod az új gyakorló appokat:
+      // cím, leírás, emoji, link (fájl neve) és téma-címke
+      const APPS = [
+        {
+          ico: "🎈",
+          name: "Toldalék-túra",
+          desc: "Képző, jel és rag – 6 szint, kupák, konfetti!",
+          tag: "Magyar nyelv",
+          url: "toldalek-kviz.html"
+        }
+      ];
+
+      const SOON = [
+        { ico: "🧮", name: "Számvadász", desc: "Matematika – műveletek, fejszámolás" },
+        { ico: "🇬🇧", name: "Szótanuló", desc: "Angol szavak és kifejezések" }
+      ];
+
+      document.getElementById("apps").innerHTML = APPS.map(a => `
+        <a class="app" href="${a.url}">
+          <span class="ico">${a.ico}</span>
+          <span class="txt">
+            <span class="name">${a.name}</span><br />
+            <span class="desc">${a.desc}</span><br />
+            <span class="tag">${a.tag}</span>
+          </span>
+          <span class="go">➡️</span>
+        </a>
+      `).join("");
+
+      document.getElementById("soon").innerHTML = SOON.map(s => `
+        <div class="soon">
+          <span class="ico">${s.ico}</span>
+          <span class="txt">
+            <span class="name">${s.name}</span><br />
+            <span class="desc">${s.desc}</span>
+          </span>
+        </div>
+      `).join("");
+    </script>
+  </body>
+</html>
