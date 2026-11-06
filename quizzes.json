@@ -387,6 +387,366 @@
           ]
         }
       ]
+    },
+    {
+      "id": "english-present",
+      "ico": "🇬🇧",
+      "name": "Present Simple vs Continuous",
+      "desc": "Angol jelen idők – 5 szint, magyar magyarázatokkal!",
+      "tag": "Angol nyelv",
+      "cupMin": 3,
+      "rules": [
+        { "ico": "🟢", "text": "<b>Present Simple</b> – szokások, rutinok (every day, usually): he/she/it → <b>-s</b>" },
+        { "ico": "🟡", "text": "<b>Present Continuous</b> – most zajló esemény (now, Look!): am/is/are + <b>-ing</b>" },
+        { "ico": "💬", "text": "Minden magyarázat magyarul, hogy világos legyen!" }
+      ],
+      "levels": [
+        {
+          "name": "1. szint – Present Simple alapok 🌱",
+          "questions": [
+            {
+              "title": "She goes to school every day.",
+              "prompt": "She ___ to school every day.",
+              "options": [
+                { "text": "go" },
+                { "text": "goes", "ok": true },
+                { "text": "going" },
+                { "text": "is going" }
+              ],
+              "explain": "Az „every day” azt jelzi: rutin, szokás → Present Simple. He/she/it-nél az ige <b>-s/-es</b> toldalékot kap: go → <b>goes</b>."
+            },
+            {
+              "title": "Mikor használjuk a Present Simple-t?",
+              "prompt": "Mikor használjuk a <b>Present Simple</b>-t?",
+              "options": [
+                { "text": "Ami most, ebben a pillanatban történik" },
+                { "text": "Rendszeres szokásokhoz, ismétlődő dolgokhoz", "ok": true },
+                { "text": "Ami tegnap történt" },
+                { "text": "Ami jövő héten lesz" }
+              ],
+              "explain": "A Present Simple-t szabályos, ismétlődő dolgokhoz használjuk: <i>every day</i> (minden nap), <i>usually</i> (általában), <i>often</i> (gyakran)."
+            },
+            {
+              "title": "I play football on Saturdays.",
+              "prompt": "I ___ football on Saturdays.",
+              "options": [
+                { "text": "play", "ok": true },
+                { "text": "plays" },
+                { "text": "am playing" },
+                { "text": "playing" }
+              ],
+              "explain": "Szokás → Present Simple. Az <b>I</b> (én) alany mellett az ige nem kap -s-t: <b>play</b>. Az -s csak he/she/it-nél jelenik meg!"
+            },
+            {
+              "title": "My brother doesn't like coffee.",
+              "prompt": "My brother ___ like coffee.",
+              "options": [
+                { "text": "don't" },
+                { "text": "doesn't", "ok": true },
+                { "text": "isn't" },
+                { "text": "not" }
+              ],
+              "explain": "A Present Simple tagadása: <i>don't</i> (I/you/we/they), <i>doesn't</i> (he/she/it). A <b>my brother</b> = he → <b>doesn't</b> like."
+            },
+            {
+              "title": "Do you play the guitar?",
+              "prompt": "___ you play the guitar?",
+              "options": [
+                { "text": "Do", "ok": true },
+                { "text": "Does" },
+                { "text": "Are" },
+                { "text": "Is" }
+              ],
+              "explain": "A Present Simple kérdés: <i>Do/Does</i> + alany + ige. <b>You</b> → <b>Do</b> you play? (he/she/it-nél: <i>Does</i> she play?)"
+            },
+            {
+              "title": "Water boils at 100 degrees.",
+              "prompt": "Water ___ at 100 degrees Celsius.",
+              "options": [
+                { "text": "boil" },
+                { "text": "boils", "ok": true },
+                { "text": "is boiling" },
+                { "text": "boiling" }
+              ],
+              "explain": "Általános igazság → Present Simple. A <b>water</b> = it → az ige -s-t kap: boil → <b>boils</b>. (A víz 100 fokon forr.)"
+            }
+          ]
+        },
+        {
+          "name": "2. szint – Present Continuous alapok ⏰",
+          "questions": [
+            {
+              "title": "Look! The dog is running.",
+              "prompt": "Look! The dog ___ in the garden.",
+              "options": [
+                { "text": "run" },
+                { "text": "runs" },
+                { "text": "is running", "ok": true },
+                { "text": "running" }
+              ],
+              "explain": "A „Look!” azt jelzi: <b>most</b>, ebben a pillanatban történik → Present Continuous: is/am/are + <b>-ing</b>."
+            },
+            {
+              "title": "Mikor használjuk a Present Continuous-t?",
+              "prompt": "Mikor használjuk a <b>Present Continuous</b>-t?",
+              "options": [
+                { "text": "Szokásokhoz" },
+                { "text": "Most zajló, folyamatban lévő eseményhez", "ok": true },
+                { "text": "Örök igazságokhoz" },
+                { "text": "Múltbeli eseményekhez" }
+              ],
+              "explain": "A Present Continuous a <b>most zajló</b> cselekvéseket írja le: <i>now</i>, <i>at the moment</i>, <i>Look!</i>, <i>Listen!</i> – mind ezt jelzik."
+            },
+            {
+              "title": "They are watching TV now.",
+              "prompt": "They ___ TV now.",
+              "options": [
+                { "text": "watch" },
+                { "text": "watches" },
+                { "text": "are watching", "ok": true },
+                { "text": "watching" }
+              ],
+              "explain": "A <b>now</b> Present Continuous-t kér. <b>They</b> (ők) → <b>are</b> + watching."
+            },
+            {
+              "title": "I am reading a book at the moment.",
+              "prompt": "I ___ a book at the moment.",
+              "options": [
+                { "text": "read" },
+                { "text": "am reading", "ok": true },
+                { "text": "reads" },
+                { "text": "reading" }
+              ],
+              "explain": "Az „at the moment” (épp most) folyamatos jelent. <b>I</b> → <b>am</b> + reading. Soha ne felejtsd el az am/is/are segédigét!"
+            },
+            {
+              "title": "What are you doing?",
+              "prompt": "What ___ you doing?",
+              "options": [
+                { "text": "are", "ok": true },
+                { "text": "do" },
+                { "text": "is" },
+                { "text": "does" }
+              ],
+              "explain": "A <i>doing</i> -ing-es alak már jelzi, hogy Present Continuous kell: <b>What are you doing?</b> (Mit csinálsz?)"
+            },
+            {
+              "title": "She is listening to music.",
+              "prompt": "She is ___ to music.",
+              "options": [
+                { "text": "listen" },
+                { "text": "listening", "ok": true },
+                { "text": "listens" },
+                { "text": "listenning" }
+              ],
+              "explain": "-ing képzés: listen → <b>listening</b>. Vigyázat, az n-t <b>nem</b> duplázzuk! A „listen to music” = zenét hallgat."
+            }
+          ]
+        },
+        {
+          "name": "3. szint – Melyiket válasszam? 🤔",
+          "questions": [
+            {
+              "title": "Tom does his homework every evening.",
+              "prompt": "Tom ___ his homework every evening.",
+              "options": [
+                { "text": "does", "ok": true },
+                { "text": "is doing" },
+                { "text": "do" },
+                { "text": "doing" }
+              ],
+              "explain": "Az „every evening” rutint jelez → Present Simple. Tom = he → do → <b>does</b>. (Itt a does <b>főige</b>: „megcsinálja” a leckét.)"
+            },
+            {
+              "title": "Be quiet! The baby is sleeping.",
+              "prompt": "Be quiet! The baby ___ .",
+              "options": [
+                { "text": "sleeps" },
+                { "text": "is sleeping", "ok": true },
+                { "text": "sleep" },
+                { "text": "sleeping" }
+              ],
+              "explain": "A „Be quiet!” azt jelzi: <b>most</b> zajlik a dolog → Present Continuous: is + sleeping. (Csitt! A baba alszik.)"
+            },
+            {
+              "title": "We usually go to the cinema.",
+              "prompt": "We usually ___ to the cinema on Fridays.",
+              "options": [
+                { "text": "go", "ok": true },
+                { "text": "are going" },
+                { "text": "goes" },
+                { "text": "going" }
+              ],
+              "explain": "Az „usually” (általában) és az „on Fridays” szokást jelez → Present Simple. <b>We</b> → <b>go</b>, -s nélkül."
+            },
+            {
+              "title": "I am cooking dinner.",
+              "prompt": "I can't talk now. I ___ dinner.",
+              "options": [
+                { "text": "cook" },
+                { "text": "cooks" },
+                { "text": "am cooking", "ok": true },
+                { "text": "cooking" }
+              ],
+              "explain": "A „now” és a „can't talk” miatt <b>most</b> zajlik a főzés → am + cooking. (Most nem tudok beszélni, főzök.)"
+            },
+            {
+              "title": "The sun rises every morning.",
+              "prompt": "The sun ___ every morning.",
+              "options": [
+                { "text": "rise" },
+                { "text": "rises", "ok": true },
+                { "text": "is rising" },
+                { "text": "rising" }
+              ],
+              "explain": "Ismétlődő, természeti jelenség → Present Simple. A <b>sun</b> = it → rise → <b>rises</b>. (A nap minden reggel felkel.)"
+            },
+            {
+              "title": "Listen! Someone is playing the piano.",
+              "prompt": "Listen! Someone ___ the piano.",
+              "options": [
+                { "text": "plays" },
+                { "text": "play" },
+                { "text": "is playing", "ok": true },
+                { "text": "playing" }
+              ],
+              "explain": "A „Listen!” = most hallod → Present Continuous: <b>is playing</b>. (Hallgasd! Valaki zongorázik.)"
+            }
+          ]
+        },
+        {
+          "name": "4. szint – Kérdések és tagadások ❓",
+          "questions": [
+            {
+              "title": "Does she speak English?",
+              "prompt": "___ she speak English?",
+              "options": [
+                { "text": "Do" },
+                { "text": "Does", "ok": true },
+                { "text": "Is" },
+                { "text": "Are" }
+              ],
+              "explain": "She → Present Simple kérdés: <b>Does</b> + alany + ige? A segédige után az ige <b>mindig alapalakban</b> marad: speak (nem speaks!)."
+            },
+            {
+              "title": "He isn't watching TV.",
+              "prompt": "He ___ watching TV, he is reading.",
+              "options": [
+                { "text": "isn't", "ok": true },
+                { "text": "doesn't" },
+                { "text": "don't" },
+                { "text": "aren't" }
+              ],
+              "explain": "Present Continuous tagadás: am/is/are + not. He → <b>isn't</b> watching. A mondat második fele is segít: „he <i>is</i> reading”."
+            },
+            {
+              "title": "Szórend: Is she playing tennis?",
+              "prompt": "Rakd sorba a szavakat, hogy helyes <b>kérdést</b> kapj!",
+              "items": ["Is", "she", "playing", "tennis?"],
+              "explain": "A Present Continuous kérdés sorrendje: <b>am/is/are + alany + -ing + többi szó</b>. → „Is she playing tennis?” (Teniszezik épp?)"
+            },
+            {
+              "title": "They don't like pizza.",
+              "prompt": "They ___ like pizza.",
+              "options": [
+                { "text": "don't", "ok": true },
+                { "text": "doesn't" },
+                { "text": "aren't" },
+                { "text": "isn't" }
+              ],
+              "explain": "They → Present Simple tagadás: <b>don't</b> + like. (A don't/doesn't után az ige mindig alapalak.)"
+            },
+            {
+              "title": "Are your parents working now?",
+              "prompt": "___ your parents working now?",
+              "options": [
+                { "text": "Is" },
+                { "text": "Are", "ok": true },
+                { "text": "Do" },
+                { "text": "Does" }
+              ],
+              "explain": "A „working” és a „now” Present Continuous-t jelez. <b>Your parents</b> = ők → <b>Are</b> your parents working now?"
+            },
+            {
+              "title": "Szórend: I am not listening.",
+              "prompt": "Rakd sorba a szavakat, hogy helyes <b>tagadó mondatot</b> kapj!",
+              "items": ["I", "am", "not", "listening."],
+              "explain": "A Present Continuous tagadás sorrendje: <b>alany + am/is/are + not + -ing</b>. → „I am not listening.” (Nem hallgatom / nem figyelek.)"
+            }
+          ]
+        },
+        {
+          "name": "5. szint – Vegyes gyakorlat 🎓",
+          "questions": [
+            {
+              "title": "Drinks tea every morning, today she is drinking coffee.",
+              "prompt": "She ___ tea every morning, but today she ___ coffee.",
+              "options": [
+                { "text": "drinks / is drinking", "ok": true },
+                { "text": "drink / is drinking" },
+                { "text": "drinks / drinks" },
+                { "text": "is drinking / drinks" }
+              ],
+              "explain": "Az első részt az „every morning” rutinná teszi → Present Simple: <b>drinks</b>. A második részt a „today” (épp ma, most) → Present Continuous: <b>is drinking</b>."
+            },
+            {
+              "title": "My friends are playing football now.",
+              "prompt": "My friends ___ football now.",
+              "options": [
+                { "text": "play" },
+                { "text": "plays" },
+                { "text": "are playing", "ok": true },
+                { "text": "is playing" }
+              ],
+              "explain": "A „now” Present Continuous-t kér. <b>My friends</b> = ők → <b>are playing</b> (nem is playing!)."
+            },
+            {
+              "title": "Look! It is raining.",
+              "prompt": "Look! It ___ . (rain = esik)",
+              "options": [
+                { "text": "rains" },
+                { "text": "rain" },
+                { "text": "is raining", "ok": true },
+                { "text": "raining" }
+              ],
+              "explain": "„Look!” = most történik. It → <b>is raining</b>. (Nézd! Esik az eső.)"
+            },
+            {
+              "title": "He never tells lies.",
+              "prompt": "He never ___ lies. (lie = hazugság)",
+              "options": [
+                { "text": "tell" },
+                { "text": "tells", "ok": true },
+                { "text": "is telling" },
+                { "text": "telling" }
+              ],
+              "explain": "Az olyan frekvencia-szavak, mint a <i>never</i>, <i>always</i>, <i>often</i>, Present Simple-t jeleznek. He → tell → <b>tells</b>. (Sosem hazudik.)"
+            },
+            {
+              "title": "run → running (duplázás)",
+              "prompt": "Hogyan írjuk a <b>run</b> igéből az -ing alakot?",
+              "options": [
+                { "text": "runing" },
+                { "text": "running", "ok": true },
+                { "text": "runnning" },
+                { "text": "runs" }
+              ],
+              "explain": "Rövid magánhangzó + egy mássalhangzó az ige végén → <b>duplázzuk a mássalhangzót</b>: run → run<b>n</b>ing. Így: sit → sitting, swim → swimming."
+            },
+            {
+              "title": "Why are you laughing?",
+              "prompt": "Why ___ you laughing?",
+              "options": [
+                { "text": "are", "ok": true },
+                { "text": "do" },
+                { "text": "is" },
+                { "text": "does" }
+              ],
+              "explain": "A „laughing” -ing-es alap → Present Continuous kell: you → <b>are</b>. „Why are you laughing?” (Miért nevetsz?)"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
