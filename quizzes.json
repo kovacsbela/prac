@@ -1,0 +1,295 @@
+{
+  "soon": [
+    { "ico": "🧮", "name": "Számvadász", "desc": "Matematika – műveletek, fejszámolás" },
+    { "ico": "🇬🇧", "name": "Szótanuló", "desc": "Angol szavak és kifejezések" }
+  ],
+  "quizzes": [
+    {
+      "id": "toldalek-tura",
+      "ico": "🎈",
+      "name": "Toldalék-túra",
+      "desc": "Képző, jel és rag – 6 szint, kupák, konfetti!",
+      "tag": "Magyar nyelv",
+      "cupMin": 3,
+      "rules": [
+        { "ico": "🔧", "text": "<b>Képző</b> – új szót alkot: kert → kert<b>ész</b>" },
+        { "ico": "🏷️", "text": "<b>Jel</b> – nem új szó, csak jelez: többes szám, birtokos, múlt idő, fokozás: kert<b>ek</b>" },
+        { "ico": "🔗", "text": "<b>Rag</b> – a mondatban köti össze a szavakat: kert<b>ben</b> (hol?)" },
+        { "ico": "🧩", "text": "Sorrend: szótő + képző + jel + rag" }
+      ],
+      "levels": [
+        {
+          "name": "1. szint – Első lépések 🌱",
+          "questions": [
+            {
+              "title": "kertben → rag",
+              "prompt": "Milyen toldalék van a <b>kertben</b> szóban?",
+              "options": [{ "text": "Képző" }, { "text": "Jel" }, { "text": "Rag", "ok": true }],
+              "explain": "A rag a mondaton belül köti össze a szavakat. A kertben szóban a kérdés: <b>hol?</b> A -ben helyhatározó rag. Ha a toldalék a hol? mikor? kit? mivel? kérdésre válaszol, akkor rag."
+            },
+            {
+              "title": "kertek → jel",
+              "prompt": "Milyen toldalék van a <b>kertek</b> szóban?",
+              "options": [{ "text": "Képző" }, { "text": "Jel", "ok": true }, { "text": "Rag" }],
+              "explain": "Az -ek a <b>többes szám jele</b>. Nem alkot új szót, csak jelez valamit: azt, hogy több kert van. Ezért jel."
+            },
+            {
+              "title": "kertész → képző",
+              "prompt": "Milyen toldalék van a <b>kertész</b> szóban?",
+              "options": [{ "text": "Képző", "ok": true }, { "text": "Jel" }, { "text": "Rag" }],
+              "explain": "A kert szóból a toldalékkal egészen <b>új szó</b> lett: a kertész (-ész). Amikor a toldalék új szót alkot, az képző."
+            },
+            {
+              "title": "futott → jel",
+              "prompt": "Milyen toldalék van a <b>futott</b> szóban?",
+              "options": [{ "text": "Képző" }, { "text": "Jel", "ok": true }, { "text": "Rag" }],
+              "explain": "Az -ott a <b>múlt idő jele</b>: jelzi, hogy a futás már megtörtént. Nem keletkezik új szó, ezért jel."
+            },
+            {
+              "title": "futás → képző",
+              "prompt": "Milyen toldalék van a <b>futás</b> szóban?",
+              "options": [{ "text": "Képző", "ok": true }, { "text": "Jel" }, { "text": "Rag" }],
+              "explain": "A fut igeből a futás <b>főnév</b> lett – a szófaj is változott! Ahol új szó (és gyakran új szófaj) keletkezik, ott képző van (-ás/-és)."
+            },
+            {
+              "title": "hazám → jel",
+              "prompt": "Milyen toldalék van a <b>hazám</b> szóban?",
+              "options": [{ "text": "Képző" }, { "text": "Jel", "ok": true }, { "text": "Rag" }],
+              "explain": "A -m a <b>birtokos jel</b> (birtokos személyjele): azt jelzi, hogy a ház az enyém. Nem alkot új szót, ezért jel."
+            }
+          ]
+        },
+        {
+          "name": "2. szint – Jelek nyomában 🏷️",
+          "questions": [
+            {
+              "title": "Melyik szóban van többes szám jele? → házak",
+              "prompt": "Melyik szóban van <b>többes szám jele</b>?",
+              "options": [{ "text": "ház" }, { "text": "házam" }, { "text": "házak", "ok": true }, { "text": "házad" }],
+              "explain": "A házak szóban a -k a többes szám jele. A házam és a házad szavakban birtokos jel van (-m, -d), a ház pedig toldalék nélküli szótő."
+            },
+            {
+              "title": "karod → jel",
+              "prompt": "Milyen toldalék van a <b>karod</b> szóban?",
+              "options": [{ "text": "Képző" }, { "text": "Jel", "ok": true }, { "text": "Rag" }],
+              "explain": "A karod azt jelenti: az én karom. A -d a <b>birtokos jel</b> – jelzi, kié a kar. Nem új szó, tehát jel."
+            },
+            {
+              "title": "magasabb → jel",
+              "prompt": "Milyen toldalék van a <b>magasabb</b> szóban?",
+              "options": [{ "text": "Képző" }, { "text": "Jel", "ok": true }, { "text": "Rag" }],
+              "explain": "A -bb a <b>fokjele</b>: magas – magasabb – legmagasabb. Nem alkot új szót, csak fokozza a jelentést, ezért jel."
+            },
+            {
+              "title": "legszebb → jelek",
+              "prompt": "Milyen toldalékok vannak a <b>legszebb</b> szóban?",
+              "options": [{ "text": "Képzők" }, { "text": "Jelek", "ok": true }, { "text": "Ragok" }],
+              "explain": "A leg- és a -bb <b>fokjelek</b>. Nem alkotnak új szót, csak fokozzák a jelentést: szép – szebb – legszebb. A fokjel is jel."
+            },
+            {
+              "title": "tanult → jel",
+              "prompt": "Milyen toldalék van a <b>tanult</b> szóban?",
+              "options": [{ "text": "Képző" }, { "text": "Jel", "ok": true }, { "text": "Rag" }],
+              "explain": "A -t itt a <b>múlt idő jele</b>: jelzi, hogy a tanulás már megtörtént. Vigyázat, ez nem tárgy rag, mert az igén nincs múlt időjel és nem is mondatbeli kapcsolatot jelöl!"
+            },
+            {
+              "title": "Melyik szóban van birtokos jel? → kalapom",
+              "prompt": "Melyik szóban van <b>birtokos jel</b>?",
+              "options": [{ "text": "kalapom", "ok": true }, { "text": "kalapban" }, { "text": "kalapos" }, { "text": "kalaptól" }],
+              "explain": "A kalapom: az én kalapom – a -m birtokos jel. A kalapban és a kalaptól ragos szó (hol? kitől?), a kalapos viszont képzős: új szó, mert melléknevet alkot (kalapos ember)."
+            }
+          ]
+        },
+        {
+          "name": "3. szint – Ragvadászat 🔗",
+          "questions": [
+            {
+              "title": "tollal → rag",
+              "prompt": "A tollal írtam. Milyen toldalék a <b>tollal</b> szóban a <b>-val</b>?",
+              "options": [{ "text": "Képző" }, { "text": "Jel" }, { "text": "Rag", "ok": true }],
+              "explain": "A -val a mondatban köti össze a szavakat: <b>mivel?</b> írtam – tollal. A mondatbeli kapcsolatot jelölő toldalék a rag."
+            },
+            {
+              "title": "Budapestre → rag",
+              "prompt": "Budapestre utazunk. Milyen toldalék van a <b>Budapestre</b> szóban?",
+              "options": [{ "text": "Képző" }, { "text": "Jel" }, { "text": "Rag", "ok": true }],
+              "explain": "A -re a <b>hová?</b> kérdésre válaszol: Budapestre = hová utazunk. A helyet, irányt mutató toldalék rag."
+            },
+            {
+              "title": "filmet → tárgy rag",
+              "prompt": "<i>Láttam a filmet a moziban.</i><br>Melyik szóban van <b>-t tárgy rag</b>?",
+              "options": [{ "text": "filmet", "ok": true }, { "text": "moziban" }, { "text": "láttam" }],
+              "explain": "A filmet válaszolja meg a <b>mit?</b> kérdést (mit láttam?), ezért van benne -t tárgy rag. A moziban szintén ragos szó (hol?), a láttam pedig múlt idejű ige: benne múlt idő jel és személyrag van."
+            },
+            {
+              "title": "kutyákkal → jel + rag",
+              "prompt": "Hány toldaléka van a <b>kutyákkal</b> szónak, és mik?",
+              "options": [
+                { "text": "1 toldalék: csak rag" },
+                { "text": "2 toldalék: jel + rag", "ok": true },
+                { "text": "2 toldalék: képző + rag" },
+                { "text": "3 toldalék: képző + jel + rag" }
+              ],
+              "explain": "kutyákkal = kutya + <b>k</b> (többes szám jele) + <b>kal</b> (rag). A jó sorrend: szótő + képző + jel + rag."
+            },
+            {
+              "title": "Melyik szóban NINCS rag? → kutyus",
+              "prompt": "Melyik szóban <b>nincs rag</b>?",
+              "options": [{ "text": "ablakból" }, { "text": "padlóra" }, { "text": "kutyus", "ok": true }, { "text": "fűben" }],
+              "explain": "Az ablakból (honnan?), a padlóra (hová?) és a fűben (hol?) mind ragos szó. A kutyus egy kedves szótő, toldalék nélkül."
+            },
+            {
+              "title": "Melyik szó végződik tárgy raggal? → asztalt",
+              "prompt": "Melyik szó végződik <b>-t tárgy raggal</b>?",
+              "options": [{ "text": "asztal" }, { "text": "asztalt", "ok": true }, { "text": "asztalra" }, { "text": "asztalos" }],
+              "explain": "Az asztalt válaszolja meg a <b>mit?</b> kérdést (pl. megvettem az asztalt). Az asztalra ragos szó, de az nem tárgy rag, hanem helyhatározó rag; az asztalos képzős szó."
+            }
+          ]
+        },
+        {
+          "name": "4. szint – Képzők műhelye 🔧",
+          "questions": [
+            {
+              "title": "virágok vs. virágos",
+              "prompt": "Mi a helyes? A <b>virágok</b> szóban a -k ..., a <b>virágos</b> szóban az -os ...",
+              "options": [
+                { "text": "-k jel, -os képző", "ok": true },
+                { "text": "-k képző, -os jel" },
+                { "text": "mindkettő jel" },
+                { "text": "mindkettő képző" }
+              ],
+              "explain": "A virágok szóban a -k többes szám <b>jele</b> (nem új szó). A virágos viszont <b>képzős</b> szó: melléknév lett a főnévből (virágos rét)."
+            },
+            {
+              "title": "Melyik szóban van képző? → tanító",
+              "prompt": "Melyik szóban van <b>képző</b>?",
+              "options": [{ "text": "tanító", "ok": true }, { "text": "könyvek" }, { "text": "házban" }, { "text": "magasabb" }],
+              "explain": "A tanít + ó szóból tanító lett: új szó, más szófaj, tehát képző. A könyvekben az -ek többes szám jele (jel), a magasabbban a -bb fokjele (jel), a házban -ban pedig rag."
+            },
+            {
+              "title": "barátság → képző",
+              "prompt": "Milyen toldalék van a <b>barátság</b> szóban?",
+              "options": [{ "text": "Képző", "ok": true }, { "text": "Jel" }, { "text": "Rag" }],
+              "explain": "A barát szóból a -ság képzővel új fogalom lett: barátság. Új szót alkotó toldalék = képző."
+            },
+            {
+              "title": "Melyik szóban van képző? → futás",
+              "prompt": "Melyik szóban van <b>képző</b>?",
+              "options": [{ "text": "futott" }, { "text": "futás", "ok": true }, { "text": "futnak" }],
+              "explain": "A futás: fut + ás – igeből főnév lett, ezért képző. A futott múlt idő jele (jel), a futnak személyragot visel (rag)."
+            },
+            {
+              "title": "Melyik szó NEM képzős? → olvas",
+              "prompt": "Melyik szó <b>nem</b> képzős?",
+              "options": [{ "text": "olvasó" }, { "text": "olvasás" }, { "text": "olvasmány" }, { "text": "olvas", "ok": true }],
+              "explain": "Az olvasó (főnév), az olvasás (főnév) és az olvasmány (főnév) mind az olvas igéből képzett szavak. Az olvas maga a szótő, toldalék nélkül."
+            },
+            {
+              "title": "macskácska → képző",
+              "prompt": "Milyen toldalék van a <b>macskácska</b> szóban?",
+              "options": [{ "text": "Képző", "ok": true }, { "text": "Jel" }, { "text": "Rag" }],
+              "explain": "A -cska a <b>kicsinyítő képző</b>: a macskából kicsi, aranyos macskácska lett. Új szót (új jelentést) alkot, tehát képző."
+            }
+          ]
+        },
+        {
+          "name": "5. szint – Nagy ismétlés 🎓",
+          "questions": [
+            {
+              "title": "dobozokat → jel + rag",
+              "prompt": "Hány toldaléka van a <b>dobozokat</b> szónak, és mik?",
+              "options": [
+                { "text": "1 toldalék: rag" },
+                { "text": "2 toldalék: jel + rag", "ok": true },
+                { "text": "2 toldalék: képző + rag" },
+                { "text": "3 toldalék: képző + jel + rag" }
+              ],
+              "explain": "doboz + <b>ok</b> (többes szám jele) + <b>at</b> (tárgy rag). Egy szóban több toldalék is lehet! A sorrend: szótő + képző + jel + rag."
+            },
+            {
+              "title": "Melyik szóban van jel? → asztalok",
+              "prompt": "Melyik szóban van <b>jel</b>?",
+              "options": [{ "text": "asztalt" }, { "text": "asztalos" }, { "text": "asztalok", "ok": true }, { "text": "asztal" }],
+              "explain": "Az asztalok szóban a -k a <b>többes szám jele</b>. Az asztalt ragos szó (tárgy rag), az asztalos képzős (asztalos ember), az asztal puszta szótő."
+            },
+            {
+              "title": "boldogtalan → képző",
+              "prompt": "Milyen toldalék a <b>boldogtalan</b> szóban a <b>-tlan</b>?",
+              "options": [{ "text": "Képző", "ok": true }, { "text": "Jel" }, { "text": "Rag" }],
+              "explain": "A -tlan/-tlen a <b>tagadó képző</b>: a boldog szóból új szó lett, az ellentétes jelentésű boldogtalan. Új szó = képző."
+            },
+            {
+              "title": "Melyik szóban van képző? → kalapos",
+              "prompt": "Melyik szóban van <b>képző</b>?",
+              "options": [{ "text": "kalap" }, { "text": "kalapos", "ok": true }, { "text": "kalapok" }, { "text": "kalapom" }],
+              "explain": "A kalapos szóból új szó lett: melléknév (kalapos ember), ez a -es <b>képző</b>. A kalapokban többes szám jele (jel), a kalapomban birtokos jel (jel) van."
+            },
+            {
+              "title": "Melyik szóban van rag? → kertben",
+              "prompt": "Melyik szóban van <b>rag</b>?",
+              "options": [{ "text": "kertes" }, { "text": "kertek" }, { "text": "kertben", "ok": true }, { "text": "kertész" }],
+              "explain": "A kertben ragot kapott: a mondatban helyet kap a szó (hol?). A kertes és a kertész képzős szó, a kertekben a -k többes szám jele (jel)."
+            },
+            {
+              "title": "kutyalabda → nincs toldalék",
+              "prompt": "Van toldalék a <b>kutyalabda</b> szóban?",
+              "options": [
+                { "text": "Igen, képző van benne" },
+                { "text": "Igen, rag van benne" },
+                { "text": "Igen, jel van benne" },
+                { "text": "Nincs – ez összetett szó", "ok": true }
+              ],
+              "explain": "A kutya és a labda két külön szó, amit összeragasztottunk: ez <b>szóösszetétel</b>, nem toldalékos szó. A toldalék mindig a szótő végéhez toldott."
+            }
+          ]
+        },
+        {
+          "name": "6. szint – Igeidő és személyrag 🕐",
+          "questions": [
+            {
+              "title": "futok → rag (személyrag)",
+              "prompt": "Milyen toldalék a <b>futok</b> szóban a <b>-k</b>?",
+              "options": [{ "text": "Képző" }, { "text": "Jel" }, { "text": "Rag", "ok": true }],
+              "explain": "A -k az <b>én</b> személyragja: futok = én futok. A személyrag összeköti az igét az alannyal a mondatban, ezért rag."
+            },
+            {
+              "title": "Melyik ige múlt idejű? → futott",
+              "prompt": "Melyik ige <b>múlt idejű</b>?",
+              "options": [{ "text": "fut" }, { "text": "futott", "ok": true }, { "text": "futni fog" }],
+              "explain": "Az -ott a <b>múlt idő jele</b>: a futott már megtörtént. A fut most történik, a futni fog pedig jövő idő."
+            },
+            {
+              "title": "Ki fut? futunk → mi",
+              "prompt": "<i>Futunk.</i> Ki fut?",
+              "options": [{ "text": "én" }, { "text": "te" }, { "text": "mi", "ok": true }, { "text": "ők" }],
+              "explain": "A futunk szóban a -unk a <b>mi személyragja</b>: a toldalék árulja el, hogy kik futnak. A személyrag is rag!"
+            },
+            {
+              "title": "futottál → jel + rag",
+              "prompt": "Milyen toldalékai vannak a <b>futottál</b> szónak?",
+              "options": [
+                { "text": "1 toldalék: csak jel" },
+                { "text": "2: múlt idő jele + személyrag", "ok": true },
+                { "text": "2: képző + rag" },
+                { "text": "1 toldalék: csak rag" }
+              ],
+              "explain": "fut + <b>ott</b> (múlt idő jele) + <b>ál</b> (személyrag). Igéknél gyakran van jel és rag is egy szóban!"
+            },
+            {
+              "title": "Melyik mondat jövő idejű?",
+              "prompt": "Melyik mondat <b>jövő idejű</b>?",
+              "options": [{ "text": "Tegnap fociztam." }, { "text": "Most focizom." }, { "text": "Holnap focizni fogok.", "ok": true }],
+              "explain": "A jövő időt a <b>fog</b> segédige + a -ni mutatja: focizni fogok. A tegnap fociztam múlt idő, a most focizom jelen idő."
+            },
+            {
+              "title": "hívsz → rag (személyrag)",
+              "prompt": "<i>Hívsz engem?</i> Milyen toldalék a <b>hívsz</b> szóban a <b>-sz</b>?",
+              "options": [{ "text": "Képző" }, { "text": "Jel" }, { "text": "Rag", "ok": true }],
+              "explain": "A -sz a <b>te</b> személyragja: hívsz = te hívsz. A személyrag az igét az alanyhoz köti a mondatban, ezért rag."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

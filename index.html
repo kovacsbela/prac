@@ -25,6 +25,11 @@
       }
       h1 { font-size: 26px; text-align: center; line-height: 1.25; }
       .sub { text-align: center; color: #6b7280; margin-top: 6px; font-size: 15px; }
+      .notice {
+        background: #fff7ed; border: 1px solid #fdba74; color: #9a3412;
+        border-radius: 14px; padding: 12px; font-size: 14px; line-height: 1.5;
+        margin-bottom: 14px;
+      }
       .app-list { display: grid; gap: 12px; margin-top: 16px; }
       a.app {
         display: flex;
@@ -49,9 +54,7 @@
         padding: 2px 9px; border-radius: 999px;
         margin-top: 6px;
       }
-      .app .go {
-        font-size: 22px; color: #4f46e5;
-      }
+      .app .go { font-size: 22px; color: #4f46e5; }
       .soon {
         display: flex; align-items: center; gap: 14px;
         background: #f8fafc; border: 1.5px dashed #cbd5e1;
@@ -72,51 +75,71 @@
         <p class="sub">Válassz egy játékot, és gyakorolj!</p>
       </div>
       <div class="card">
-        <div class="app-list" id="apps"></div>
-        <h2>Hamarosan…</h2>
+        <div id="notice"></div>
+        <div class="app-list" id="apps"><p class="sub">⏳ Betöltés…</p></div>
+        <h2 id="soon-title" style="display:none;">Hamarosan…</h2>
         <div class="app-list" id="soon"></div>
       </div>
-      <p class="footnote">💡 Új játék? Tegyél egy új kártyát a listába!</p>
+      <p class="footnote">💡 Új kvíz? Csak vegyél fel egy új bejegyzést a <b>quizzes.json</b> fájlban!</p>
     </div>
     <script>
-      // Ide írhatod az új gyakorló appokat:
-      // cím, leírás, emoji, link (fájl neve) és téma-címke
-      const APPS = [
-        {
-          ico: "🎈",
-          name: "Toldalék-túra",
-          desc: "Képző, jel és rag – 6 szint, kupák, konfetti!",
-          tag: "Magyar nyelv",
-          url: "toldalek-kviz.html"
+      async function main() {
+        const appsEl = document.getElementById("apps");
+        const soonEl = document.getElementById("soon");
+        const soonTitle = document.getElementById("soon-title");
+        const noticeEl = document.getElementById("notice");
+        let content = null;
+        try {
+          const res = await fetch("quizzes.json", { cache: "no-cache" });
+          if (res.ok) content = await res.json();
+        } catch (e) {}
+        if (content && Array.isArray(content.quizzes)) {
+          appsEl.innerHTML = content.quizzes
+            .map(a => `
+              <a class="app" href="quiz.html?id=${encodeURIComponent(a.id)}">
+                <span class="ico">${a.ico || "🎯"}</span>
+                <span class="txt">
+                  <span class="name">${a.name}</span><br />
+                  <span class="desc">${a.desc || ""}</span><br />
+                  <span class="tag">${a.tag || "Gyakorló"}</span>
+                </span>
+                <span class="go">➡️</span>
+              </a>
+            `)
+            .join("");
+          const soon = content.soon || [];
+          if (soon.length) {
+            soonTitle.style.display = "";
+            soonEl.innerHTML = soon
+              .map(s => `
+                <div class="soon">
+                  <span class="ico">${s.ico || "🎯"}</span>
+                  <span class="txt">
+                    <span class="name">${s.name}</span><br />
+                    <span class="desc">${s.desc || ""}</span>
+                  </span>
+                </div>
+              `)
+              .join("");
+          }
+        } else {
+          noticeEl.innerHTML = `
+            <div class="notice">🧪 <b>Előnézet.</b> A kvízlista a <b>quizzes.json</b> fájlból töltődik be, ha az oldalt szerverről nyitod meg (GitHub Pages).</div>
+          `;
+          appsEl.innerHTML = `
+            <a class="app" href="quiz.html">
+              <span class="ico">🎈</span>
+              <span class="txt">
+                <span class="name">Minta kvíz</span><br />
+                <span class="desc">Így fog kinézni egy kvíz kártya!</span><br />
+                <span class="tag">Előnézet</span>
+              </span>
+              <span class="go">➡️</span>
+            </a>
+          `;
         }
-      ];
-
-      const SOON = [
-        { ico: "🧮", name: "Számvadász", desc: "Matematika – műveletek, fejszámolás" },
-        { ico: "🇬🇧", name: "Szótanuló", desc: "Angol szavak és kifejezések" }
-      ];
-
-      document.getElementById("apps").innerHTML = APPS.map(a => `
-        <a class="app" href="${a.url}">
-          <span class="ico">${a.ico}</span>
-          <span class="txt">
-            <span class="name">${a.name}</span><br />
-            <span class="desc">${a.desc}</span><br />
-            <span class="tag">${a.tag}</span>
-          </span>
-          <span class="go">➡️</span>
-        </a>
-      `).join("");
-
-      document.getElementById("soon").innerHTML = SOON.map(s => `
-        <div class="soon">
-          <span class="ico">${s.ico}</span>
-          <span class="txt">
-            <span class="name">${s.name}</span><br />
-            <span class="desc">${s.desc}</span>
-          </span>
-        </div>
-      `).join("");
+      }
+      main();
     </script>
   </body>
 </html>
